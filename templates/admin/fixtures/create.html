@@ -1,0 +1,294 @@
+{% extends 'admin/layout/base.html' %}
+{% load staticfiles %}
+{% load video_templatetags %}
+
+{% block 'css' %}
+<link rel="stylesheet" href="{% static 'admin/plugins/select2/select2.min.css' %}">
+{% endblock %}
+
+{% block 'content' %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Fixture
+        <small>Create</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{% url 'admin:dashboard' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="{% url 'admin:list_fixture' %}">Fixture</a></li>
+        <li class="active">Create</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="box box-danger">
+                <div class="box-body">
+                    {{ form.media }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>{{ form.is_hot }} Match Hot</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group {% if form.name.errors %} has-error {% endif %}">
+                                <label class="text-danger">Name (require): </label>
+                                <input readonly id="id_name" name="{{ form.name.name }}" type="text" class="form-control"
+                                       value="{{ form.name.value|default_if_none:'' }}" placeholder="Enter name">
+                                <span class="help-block">{{ form.name.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.slug.errors %} has-error {% endif %}">
+                                <label class="text-danger">Slug (require):</label>
+                                <input readonly id="id_slug" name="{{ form.slug.name }}" type="text" class="form-control"
+                                       value="{{ form.slug.value|default_if_none:'' }}" placeholder="Enter name">
+                                <span class="help-block">{{ form.slug.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.team_home.errors %} has-error {% endif %}">
+                                <label class="text-danger">Team Home (require):</label>
+                                <select id="id_team_home" name="team_home" class="js-data-example-ajax form-control">
+                                    <option selected="selected" value="{{ form.team_home.value|default_if_none:'' }}">
+                                        {{ form.team_home.value|get_team_name|default_if_none:'' }}
+                                    </option>
+                                </select>
+                                <span class="help-block">{{ form.team_home.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.team_away.errors %} has-error {% endif %}">
+                                <label class="text-danger">Team Away (require):</label>
+                                <select id="id_team_away" name="team_away" class="js-data-example-ajax form-control">
+                                    <option selected="selected" value="{{ form.team_away.value|default_if_none:'' }}">
+                                        {{ form.team_away.value|get_team_name|default_if_none:'' }}
+                                    </option>
+                                </select>
+                                <span class="help-block">{{ form.team_away.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.start_date.errors %} has-error {% endif %}">
+                                <label class="text-danger">Start Time (require):</label>
+                                <div class='input-group date' id='datetimepicker1'>
+                                    <input name="start_date" value="{{ form.start_date.value }}"
+                                           type='text' class="form-control"/>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                                <span class="help-block">{{ form.start_date.errors }}</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>SEO:</label>
+                                <!--<textarea class="form-control" name="{{ form.description.name }}"
+                                          placeholder="Enter {{ form.description.name }}">{{ form.description.value|default_if_none:"" }}</textarea>-->
+                            </div>
+                            {{ form.description }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group {% if form.image.errors %} has-error {% endif %}">
+                                <label>Image</label>
+                                <input name="{{ form.image.name }}" type="file"/>
+                                <span class="help-block">{{ form.image.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.type.errors %} has-error {% endif %}">
+                                <label>Fixture Type</label>
+                                {{ form.type }}
+                                <span class="help-block">{{ form.type.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.country.errors %} has-error {% endif %}">
+                                <label class="text-danger">Country (require):</label>
+                                {{ form.country }}
+                                <span class="help-block">{{ form.country.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.tournament.errors %} has-error {% endif %}">
+                                <label class="text-danger">Tournament (require):</label>
+                                <select name="tournament" class="js-data-tournament-ajax form-control">
+                                    <option selected="selected" value="{{ fixture.tournament.id }}">
+                                        {{ fixture.tournament }}
+                                    </option>
+                                </select>
+                                <span class="help-block">{{ form.tournament.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.season.errors %} has-error {% endif %}">
+                                <label class="text-danger">Season (require):</label>
+                                {{ form.season }}
+                                <span class="help-block">{{ form.season.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.link_blank.errors %} has-error {% endif %}">
+                                <label>Url Blank:</label>
+                                <input name="{{ form.link_blank.name }}" type="text" class="form-control"
+                                       value="{{ form.link_blank.value|default_if_none:'' }}" placeholder="Enter link">
+                                <span class="help-block">{{ form.link_blank.errors }}</span>
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.channels.label_tag }}
+                                {{ form.channels }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <button id="btn_submit_fixture" type="submit" class="btn btn-primary pull-right">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</section>
+<!-- /.content -->
+{% endblock %}
+
+{% block 'js' %}
+<script src="{% static 'admin/plugins/select2/select2.full.min.js' %}"></script>
+<script src="//cdn.ckeditor.com/4.5.5/full/ckeditor.js"></script>
+<script type="text/javascript">
+    function formatRepo(repo) {
+        if (repo && repo.name) {
+            return repo.name;
+        }
+    }
+
+    function formatRepoSelection(repo) {
+        return repo.name || repo.text;
+    }
+
+    $(".js-data-example-ajax").select2({
+        ajax: {
+            url: "/admincp/fixture/search",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                // parse the results into the format expected by Select2
+                // since we are using custom formatting functions we do not need to
+                // alter the remote JSON data, except to indicate that infinite
+                // scrolling can be used
+                params.page = params.page || 1;
+
+                return {
+                    results: data,
+                    pagination: {
+                        more: (params.page * 30) < data.length
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) {
+            return markup;
+        }, // let our custom formatter work
+        minimumInputLength: 2,
+        templateResult: formatRepo, // omitted for brevity, see the source of this page
+        templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+    });
+
+    $("#id_country").on('change', function () {
+        var country = $("#id_country").select2('data')[0];
+        $.ajax({
+            method: "GET",
+            dataType: 'json',
+            url: "/admincp/tournament/search",
+            data: { 'q': country.id }
+        })
+        .done(function (array) {
+            $(".js-data-tournament-ajax").select2({
+                minimumResultsForSearch: -1,
+                data: array,
+                templateResult: formatRepo, // omitted for brevity, see the source of this page
+                templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+            });
+        });
+    });
+
+    $(document).ready(function() {
+        var country = $("#id_country").select2('data')[0];
+        $.ajax({
+            method: "GET",
+            dataType: 'json',
+            url: "/admincp/tournament/search",
+            data: { 'q': country.id }
+        })
+        .done(function (array) {
+            $(".js-data-tournament-ajax").select2({
+                minimumResultsForSearch: -1,
+                data: array,
+                templateResult: formatRepo, // omitted for brevity, see the source of this page
+                templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+            });
+        });
+
+        $('#datetimepicker1').datetimepicker({
+            format: 'MM/DD/YYYY HH:mm',
+        });
+    });
+
+    $(".custom-select2").select2();
+
+    $("#id_name").keyup(function () {
+        var str = $(this).val();
+        str = slug(str);
+        $("#id_slug").val(str);
+    });
+
+    $("#btn_submit_fixture").on('mouseover', function () {
+        var temp_team_home = $("#id_team_home").select2('data')[0];
+        var temp_team_away = $("#id_team_away").select2('data')[0];
+
+        var name_home = null;
+        var name_away = null;
+
+        if (temp_team_home.name) {
+            name_home = temp_team_home.name
+        } else if (temp_team_home.text) {
+            name_home = temp_team_home.text.trim()
+        }
+
+        if (temp_team_away.name) {
+            name_away = temp_team_away.name
+        } else if (temp_team_away.text) {
+            name_away = temp_team_away.text.trim()
+        }
+
+        if (name_home && name_away) {
+            $("#id_name").val(name_home + ' - ' + name_away);
+            $("#id_slug").val(slug(name_home) + '-' + slug(name_away));
+        }
+    });
+
+    function slug(str) {
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        str = str.replace(/đ/g, "d");
+        str = str.replace(/!|@|\$|%|\^|\*|\(|\)|\+|\=|\&lt;|\&gt;|\?|\/|,|\.|\:|\'| |\"|\&amp;|\#|\[|\]|~/g, "-");
+        str = str.replace(/-+-/g, "-"); //thay thế 2- thành 1-
+        str = str.replace(/^\-+|\-+$/g, "");//cắt bỏ ký tự - ở đầu và cuối chuỗi
+        str = str.replace(/[^a-zA-Z0-9]+/g, '-');
+        return str;
+    }
+
+    CKEDITOR.replace('editor1');
+</script>
+{% endblock %}

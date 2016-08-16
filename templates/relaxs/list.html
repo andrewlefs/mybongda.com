@@ -1,0 +1,84 @@
+{% extends 'layout/base.html' %}
+{% load video_templatetags %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<div class="body_content">
+    <div class="news_template">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="content">
+                        <div class="other_post">
+                            <ul>
+                                {% for item in list_object %}
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="img_thumb">
+                                                <a href="{% url 'relax:detail' item.id item.slug %}"><img src="{{ item.get_image_url }}" class="img-responsive" alt="{{ item.name }}"></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="title">
+                                                <h3><a href="{% url 'relax:detail' item.id item.slug %}">{{ item.name }}</a></h3>
+                                            </div>
+                                            <div class="content">
+                                                <div class="meta">{{ item.created_date|date:'Y/m/d H:s' }}</div>
+                                                <div class="intro_text">
+                                                    {{ item.description }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <!-- other post -->
+
+                        {% if is_paginated %}
+                            <div class="pagination">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul>
+                                            {% if page_obj.has_previous %}
+                                                <li><a rel="next" href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+                                            {% endif %}
+
+                                            {% for page in page_obj.paginator.page_range %}
+                                                {% if page > page_obj.number|minfilter and page < page_obj.number|maxfilter %}
+                                                    {% if page_obj.number != page %}
+                                                        <li>
+                                                            <a href="?page={{ page }}">{{ page }}</a>
+                                                        </li>
+                                                    {% else %}
+                                                        <li class="active">{{ page }}</li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if page_obj.has_next %}
+                                                <li><a rel="next" href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-xs-4">
+                    {% include 'layout/sidebar.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

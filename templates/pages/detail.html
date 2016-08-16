@@ -1,0 +1,31 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="body_content">
+    <div class="news_detail_template">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="heading">
+                        <h3>{{ object.name }}</h3>
+                    </div>
+                    <!-- heading -->
+                    <div class="content">
+                        <div class="meta">
+                            <div class="post_time">
+                                <p>{{ object.created_date|date:'d/m/Y H:i' }}</p>
+                            </div>
+                            <div class="social"></div>
+                        </div>
+
+                        <div style="text-align: justify; max-width: 100% !important;">
+                            {{ object.content|safe }}
+                        </div>
+                    </div>
+                    <!-- content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}}

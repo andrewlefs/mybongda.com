@@ -1,0 +1,81 @@
+{% extends 'layout/base.html' %}
+{% load video_templatetags %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="main-content">
+            <div class="col-xs-8">
+                <div class="subcat">
+                    <div class="title_active">
+                        <h2><a href="#" title="">Highlight</a></h2>
+                    </div>
+                </div>
+
+                <div id="list-videos">
+                    <ul>
+                        {% for video in list_object %}
+                            <li class="first" style="width: 29.5%;">
+                                <a href="{% url 'video:detail' video.id video.slug %}">
+                                    <div class="thumb">
+                                        <img src="{{ video.get_image_url }}">
+                                        <span class="time">{{ video.match_date }}</span>
+                                    </div>
+                                    <div class="thumb-over"></div>
+                                    <div class="info">
+                                        <h2>{{ video.team_home }} <span style="color: red;">{{ video.score }}</span> {{ video.team_away }}</h2>
+                                        <div class="meta"> {{ video.tournament }} </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                {% if is_paginated %}
+                    <div class="wp-pagenavi">
+                        <span class="pages">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+                        {% if page_obj.number >= 2 %}
+                            <a class="first" href="?page=1">« First</a>
+                        {% endif %}
+
+                        {% if page_obj.has_previous %}
+                            <a class="previouspostslink" rel="prev" href="?page={{ page_obj.previous_page_number }}">«</a>
+                        {% endif %}
+
+                        {% for page in page_obj.paginator.page_range %}
+                            {% if page > page_obj.number|minfilter and page < page_obj.number|maxfilter %}
+                                {% if page_obj.number != page %}
+                                    <a class="page smaller" href="?page={{ page }}">{{ page }}</a>
+                                {% else %}
+                                    <span class="current">{{ page }}</span>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <a class="nextpostslink" rel="next" href="?page={{ page_obj.next_page_number }}">»</a>
+                        {% endif %}
+                        <a class="last" href="?page={{ page_obj.paginator.num_pages }}">Last »</a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="col-xs-4">
+                <a href="#">
+                    <img width="100%" alt="" src="http://i.imgur.com/JM9pRmq.gif">
+                </a>
+
+                <a href="#">
+                    <img style="border:1px solid #ccc;"  width="100%" alt="ucw88 1592015" src="http://i.imgur.com/JtFwyvP.gif">
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="body_content">
+    <div class="videos_template">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="title">
+                        <h3>{{ clip.name }}</h3>
+
+                        <div class="meta">
+                            <div class="post_time">
+                                <p>{{ clip.created_date|date:'d/m/Y' }}</p>
+                            </div>
+
+                            <div class="social">
+                                <div class="fb-like" data-href="{{ request.build_absolute_uri|urlencode }}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- heading -->
+                    <div class="content" style="width: 100%;">
+                        {{ clip.frame|safe }}
+                    </div>
+                    <!-- content -->
+                    <div class="comment_form">
+                        <div class="heading">
+                            <span class="heading">Bình Luận</span>
+                        </div>
+                        <div class="content">
+                            <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-width="100%" data-num-posts="10"></div>
+                        </div>
+                    </div>
+                    <!-- comment form -->
+                    <div class="relate_post">
+                        <div class="heading">
+                            <h2>Xem thêm</h2>
+                        </div>
+                        <div class="content">
+                            <div class="row" style="min-height: 140px !important;">
+                                {% for clip in clips_highlight %}
+                                    <div class="col-md-3">
+                                    <div class="img_thum">
+                                        <a href="{% url 'clip:detail' clip.id clip.slug %}">
+                                            <img src="{{ clip.get_image_url }}" class="img-responsive"
+                                                        alt="{{ clip.name }}">
+                                        </a>
+                                    </div>
+                                    <div class="intro_text">
+                                        <p><a href="{% url 'clip:detail' clip.id clip.slug %}">{{ clip.name|truncatechars:'40' }}</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    {% include 'layout/sidebar.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}}

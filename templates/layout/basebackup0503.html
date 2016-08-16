@@ -1,0 +1,250 @@
+{% load staticfiles %}
+{% load cache %}
+{% load video_templatetags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{{ info.title }} - Mybongda</title>
+    <meta name="title" content="{{ info.title }} - Mybongda">
+    <meta property="og:title" content="{{ info.title }} - Mybongda" />
+    <meta name="description" content="{{ info.title }} - Xem bóng ðá tr?c tuy?n - Tr?c ti?p bóng ðá ch?t lý?ng cao full HD , c?p nh?t t? s? , soi kèo và nh?n ð?nh tip kèo giúp ngý?i chõi có nh?ng s? l?a ch?n sáng su?t chi?n th?ng kèo nhà cái.">
+    <meta property="og:description" content="{{ info.title }} - Xem bóng ðá tr?c tuy?n - Tr?c ti?p bóng ðá ch?t lý?ng cao full HD , c?p nh?t t? s? , soi kèo và nh?n ð?nh tip kèo giúp ngý?i chõi có nh?ng s? l?a ch?n sáng su?t chi?n th?ng kèo nhà cái." />
+    <meta name="keywords" content="{{ info.title|generator_keyword }}, truc tiep bong da, xem bong da truc tuyen, bong da truc tuyen, xem bong da truc tiep, k cong bong da, tip bong da">
+
+    {% cache 500 css %}
+    <meta name="alexaVerifyID" content="l8nGAWFtG6Xo2ZThiIZ2AE43ZlQ"/>
+	<meta http-equiv="content-language" content="vi"/>
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://mybongda.com/" />
+	<meta property="og:image" content="http://i.imgur.com/3Oye6CO.png"/>
+	<meta property="og:site_name" content="Mybongda.com"/>
+	<link rel="icon" type="img/ico" href="{% static 'frontend/img/logonew.ico'%}">
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="author" content="Mybongda.com">
+
+    <meta name="robots" content="index,follow,noodp">
+    <meta name="distribution" content="Global">
+    <meta name="revisit-after" content="1 days">
+
+
+    <link rel="stylesheet" href="{% static 'frontend/css/bootstrap.min.css' %}">
+    <!--<link rel="stylesheet" href="{% static 'frontend/css/jquery.bxslider.css' %}">-->
+    <link rel="stylesheet" href="{% static 'frontend/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'frontend/css/responsive.css' %}">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
+          rel='stylesheet' type='text/css'>
+
+    {% endcache %}
+	
+	<script src="{% static 'frontend/js/jquery-1.11.3.min.js' %}"></script>
+	<script src="{% static 'frontend/js/jquery.bxslider.min.js' %}"></script>
+	<script src="{% static 'frontend/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'frontend/js/script.js' %}"></script>
+
+    {% block css %}
+    {% endblock %}
+</head>
+
+<body>
+<div class="wrapper">
+    {% cache 500 header %}
+    {% include 'layout/header.html' %}
+    <!-- header -->
+    {% endcache %}
+
+    <div class="main_content">
+
+        {% cache 500 top_ads %}
+        <div class="mbd_container">
+            <div class="rlt">
+                <div class="ads_area_01">
+                    <div class="close_ads">
+                        <p><span>x</span>t?t qu?ng cáo</p>
+                    </div>
+                    <a rel="nofollow" href="http://cacuocm88.net" target="_blank">
+                        <img style="border:1px solid red;"
+                             alt="M88 - Casino, tr? chõi tr?c tuy?n, tham gia cá cý?c x? s?, th? thao, bóng ðá tr?c tuy?n"
+                             border="0"
+                             src="http://1.bp.blogspot.com/-oEljYlOwnUg/Vasof73EAPI/AAAAAAAAETU/OTk2JpN875w/s1600/120x300_VN.gif"
+                             width="120" height="280">
+                    </a>
+                    <a target="_blank" href="http://goo.gl/Lz5buP">
+                        <img alt="fun88" src="http://i.imgur.com/j4Xiyyd.gif" border="0">
+                    </a>
+                </div>
+                <div class="ads_area_02">
+                    <a target="_blank" href="http://vbet79.com/?refcode=MYBD">
+                        <img alt="lien he quang cao" src="http://i.imgur.com/nJFiSdd.gif" border="0">
+                    </a>
+					<a target="_blank" href="http://www.esball899.com/?aff=375875">
+                        <img alt="Esball" src="http://i.imgur.com/4lFqqhC.gif" border="0">
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endcache %}
+
+        <div class="mbd_container">
+
+            {% cache 500 menu_top %}
+            <div class="body_content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="top_vert_menu menu">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li role="presentation" class="active"><a href="{% url 'fixture:index' %}">L?ch Phát
+                                        Sóng Bóng Ðá</a></li>
+                                    <li role="presentation"><a target="_blank" titile="b?ng x?p h?ng" href="/trang/1-bang-xep-hang">B?ng X?p H?ng</a></li>
+                                    <li role="presentation"><a target="_blank" titile="link sopcast" href="/trang/3-link-sopcast">Link Sopcat</a></li>
+                                    <li role="presentation"><a target="_blank" titile="k?t qu? bóng ðá" href="/trang/4-ket-qua-tran-dau-ket-thuc">K?t qu? tr?n ð?u k?t thúc</a></li>
+                                    <li role="presentation"><a target="_blank" titile="number game" href="/trang/7-number-game">Room Number Game</a></li>
+                                    <li role="presentation"><a target="_blank" titile="nhà cái uy tín" href="/trang/9-nha-cai-uy-tin">Nhà Cái Uy Tín</a></li>
+                                    <li role="presentation"><a target="_blank" titile="bóng ?o" href="/trang/5-bong-da-ao">Room bóng ?o</a></li>
+                                    <li role="presentation"><a target="_blank" titile="bong88" href="/trang/6-link-vao-bong-88-khong-bi-chan">Vào Bong88</a></li>
+                                    <li role="presentation"><a titile="Tip m?i ngày" target="_blank" href="http://tip.mybongda.com">Tip M?i Ngày</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="top_ads">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <a target="_blank" href="http://www.bet365tt.com/?intr=bongdamy">
+                                            <img width="100%" height="80px"
+                                                 alt="Bet365- Casino, tr? chõi tr?c tuy?n, tham gia cá cý?c x? s?, th? thao, bóng ðá tr?c tuy?n"
+                                                 src="http://i.imgur.com/nRfZEhO.gif" border="0"></a>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <a href="https://www.w88vipvn.com/?affiliateid=326" target="_blank">
+                                            <img width="100%" height="80px"
+                                                 alt="W88- Casino, tr? chõi tr?c tuy?n, tham gia cá cý?c x? s?, th? thao, bóng ðá tr?c tuy?n"
+                                                 id="BANNER222_rptAds_ctl01_imgAd" src="http://i.imgur.com/QjV8G7n.gif"
+                                                 style="border-width:0px;"></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <a target="_blank"
+                                           href="http://aff.sports998.com/Accept.ashx?sid=09dcad0d-3b01-4317-96ab-7a7006e91b3c&amp;lang=vi-vn&amp;aid=58679&amp;cid=cd836aa7-b37e-47d7-9870-80d0309b9b88">
+                                            <img width="100%" height="80px"
+                                                 src="http://i.imgur.com/gw97Iqu.gif"
+                                                 border="0"></a>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <a id="BANNER222_rptAds_ctl01_lnkAd"
+                                           href="http://www.7liveasia88.com/Main/home.aspx?lang=vi-VN" target="_blank">
+                                            <img width="100%" height="80px"
+                                                 alt="7Live - Casino, tr? chõi tr?c tuy?n, tham gia cá cý?c x? s?, th? thao, bóng ðá tr?c tuy?n"
+                                                 id="BANNER222_rptAds_ctl01_imgAd" src="http://i.imgur.com/Hdm7jOU.gif"
+                                                 style="border-width:0px;"></a>
+                                    </div>
+                                </div>
+								 <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <a target="_blank"
+                                           href=" http://vlt.me/.1jpy8">
+                                            <img width="100%" height="80px"
+                                                 src="http://i.imgur.com/08c0md8.gif"
+                                                 border="0"></a>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <a id="BANNER222_rptAds_ctl01_lnkAd"
+                                           href="http://www.fun183.com/lm/aff/biiidiii_vi_home" target="_blank">
+                                            <img width="100%" height="80px"
+                                                 alt="fun88"
+                                                 id="BANNER222_rptAds_ctl01_imgAd" src="http://i.imgur.com/qMVbD6u.gif"
+                                                 style="border-width:0px;"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endcache %}
+
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        {% cache 500 bottom_ads %}
+        <!-- main_content -->
+        <div class="ads_area_03">
+            <div class="close_ads"><p>T?t Qu?ng Cáo <span>[X]</span></p></div>
+            <a href="http://click.mibet.com/" target="_blank">
+                <img src="http://i.imgur.com/bDdEcJP.gif" alt="300x250 mibet" width="200" height="200"/>
+            </a>
+        </div>
+        <div class="chat_room">
+            <div class="lable-chatbox"><i class="fa fa-weixin chat-icon"></i><br/>Chém gió</div>
+            <div class="frame_chat" style="display: none; position: absolute; right: 0; top: 50px;">
+                <script id="sid0010000080383556233">(function () {
+                    function async_load() {
+                        s.id = "cid0010000080383556233";
+                        s.src = 'http://st.chatango.com/js/gz/emb.js';
+                        s.style.cssText = "width:300px;height:450px;";
+                        s.async = true;
+                        s.text = '{"handle":"mybongda","styles":{"a":"959595","b":100,"c":"ffffff","d":"ffffff","e":"ffffff","g":"000000","h":"ffffff","j":"000000","k":"bbbbbb","l":"0D82B3","m":"0D82B3","n":"0D82B3","p":12,"s":1,"t":0,"v":0}}';
+                        var ss = document.getElementsByTagName('script');
+                        for (var i = 0, l = ss.length; i < l; i++) {
+                            if (ss[i].id == 'sid0010000080383556233') {
+                                ss[i].id += '_';
+                                ss[i].parentNode.insertBefore(s, ss[i]);
+                                break;
+                            }
+                        }
+                    }
+
+                    var s = document.createElement('script');
+                    if (s.async == undefined) {
+                        if (window.addEventListener) {
+                            addEventListener('load', async_load, false);
+                        } else if (window.attachEvent) {
+                            attachEvent('onload', async_load);
+                        }
+                    } else {
+                        async_load();
+                    }
+                })();</script>
+            </div>
+        </div>
+        {% endcache %}
+    </div>
+    <!-- main content -->
+
+    {% cache 500 footer %}
+    {% include 'layout/footer.html' %}
+    <!-- footer -->
+    {% endcache %}
+</div>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.5&appId=1469016329999701";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!-- GoogleAnalyticsObject -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48770984-1', 'auto');
+  ga('send', 'pageview');
+</script>
+{% block js %}
+{% endblock %}
+</body>
+</html>

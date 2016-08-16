@@ -1,0 +1,192 @@
+{% extends 'admin/layout/base.html' %}
+{% load staticfiles %}
+
+{% block 'css' %}
+    <link rel="stylesheet" href="{% static 'admin/plugins/select2/select2.min.css' %}">
+{% endblock %}
+
+{% block 'content' %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Match 
+            <small>Update</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'admin:dashboard' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="{% url 'admin:list_fixture' %}">Match</a></li>
+            <li class="active">Update</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="box box-danger">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Name:</label>
+                                <input readonly type="text" class="form-control" value="{{ fixture.name }}" placeholder="Enter name">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Fixture Type:</label>
+                                <input readonly type="text" class="form-control" value="{{ fixture.get_type_display }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Start Time:</label>
+                                <input readonly type="text" class="form-control" value="{{ fixture.start_date|date:'m/d/Y H:m:s' }}">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Country:</label>
+                                <input readonly type="text" class="form-control" value="{{ fixture.country }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tournament:</label>
+                                <input readonly type="text" class="form-control" value="{{ fixture.tournament }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Season:</label>
+                                <input readonly type="text" class="form-control" value="{{ fixture.season }}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group {% if form.link_statistics.errors %} has-error {% endif %}">
+                                <label>Link statistics:</label>
+                                <input name="{{ form.link_statistics.name }}" type="text" class="form-control" value="{{ form.link_statistics.value|default_if_none:"" }}" placeholder="Enter link statistics">
+                                <span class="help-block">{{ form.link_statistics.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.link_now_goal.errors %} has-error {% endif %}">
+                                <label>Link now goal:</label>
+                                <input name="{{ form.link_now_goal.name }}" type="text" class="form-control" value="{{ form.link_now_goal.value|default_if_none:"" }}" placeholder="Enter link now goal">
+                                <span class="help-block">{{ form.link_now_goal.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.link_betradar.errors %} has-error {% endif %}">
+                                <label>Link betradar:</label>
+                                <input name="{{ form.link_betradar.name }}" type="text" class="form-control" value="{{ form.link_betradar.value|default_if_none:"" }}" placeholder="Enter link betradar">
+                                <span class="help-block">{{ form.link_betradar.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.link_odds.errors %} has-error {% endif %}">
+                                <label>ID Simulator:</label>
+                                <input name="{{ form.link_odds.name }}" type="text" class="form-control" value="{{ form.link_odds.value|default_if_none:"" }}" placeholder="Enter link odds">
+                                <span class="help-block">{{ form.link_odds.errors }}</span>
+                            </div>
+
+                            <div class="form-group {% if form.link_sopcast.errors %} has-error {% endif %}">
+                                <label>Link sopcast:</label>
+                                <input name="{{ form.link_sopcast.name }}" type="text" class="form-control" value="{{ form.link_sopcast.value|default_if_none:"" }}" placeholder="Enter link sopcast">
+                                <span class="help-block">{{ form.link_sopcast.errors }}</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Frame server 1:</label>
+                                <textarea class="form-control" name="{{ form.frame_server_1.name }}" placeholder="Enter frame server 1">{{ form.frame_server_1.value|default_if_none:"" }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Frame server 2:</label>
+                                <textarea class="form-control" name="{{ form.frame_server_2.name }}" placeholder="Enter frame server 2">{{ form.frame_server_2.value|default_if_none:"" }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Frame server 3:</label>
+                                <textarea class="form-control" name="{{ form.frame_server_3.name }}" placeholder="Enter frame server 3">{{ form.frame_server_3.value|default_if_none:"" }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Frame server 4:</label>
+                                <textarea class="form-control" name="{{ form.frame_server_4.name }}" placeholder="Enter frame server 4">{{ form.frame_server_4.value|default_if_none:"" }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Frame server 5:</label>
+                                <textarea class="form-control" name="{{ form.frame_server_5.name }}" placeholder="Enter frame server 5">{{ form.frame_server_5.value|default_if_none:"" }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Frame server 6:</label>
+                                <textarea class="form-control" name="{{ form.frame_server_6.name }}" placeholder="Enter frame server 6">{{ form.frame_server_6.value|default_if_none:"" }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Frame server 7:</label>
+                                <textarea class="form-control" name="{{ form.frame_server_7.name }}" placeholder="Enter frame server 7">{{ form.frame_server_7.value|default_if_none:"" }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Frame server 8:</label>
+                                <textarea class="form-control" name="{{ form.frame_server_8.name }}" placeholder="Enter frame server 8">{{ form.frame_server_8.value|default_if_none:"" }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Frame server 1xbet:</label>
+                                <textarea class="form-control" name="{{ form.frame_1xbet.name }}" placeholder="Enter frame server 1xbet">{{ form.frame_1xbet.value|default_if_none:"" }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <button id="btn_submit_match" type="submit" class="btn btn-primary pull-right">Save</button>
+                </div>
+            </div>
+        </form>
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block 'js' %}
+    <script src="{% static 'admin/plugins/select2/select2.full.min.js' %}"></script>
+    <script type="text/javascript">
+        $('#datetimepicker1').datetimepicker({
+            format: 'MM/DD/YYYY HH:mm:ss',
+        });
+        $(".select2").select2();
+        $("#id_name").keyup(function(){
+            var str = $(this).val();
+            str = slug(str);
+            $("#id_slug").val(str);        
+        });
+
+        $("#btn_submit_match").on('mouseover', function() {
+            if ($("#id_team_home").val() != '' && $("#id_team_away") != '') {
+                var team_home = $("#id_team_home").find("option:selected").text();
+                var slug_team_home = slug(team_home);
+
+                var team_away = $("#id_team_away").find("option:selected").text();
+                var slug_team_away = slug(team_away);
+
+                $("#id_name").val(team_home + ' - ' + team_away);
+                $("#id_slug").val(slug_team_home + '-' + slug_team_away);
+            };
+        });
+
+        function slug(str) {
+            str = str.toLowerCase();
+            str= str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
+            str= str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
+            str= str.replace(/ì|í|ị|ỉ|ĩ/g,"i");
+            str= str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");
+            str= str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
+            str= str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
+            str= str.replace(/đ/g,"d");
+            str= str.replace(/!|@|\$|%|\^|\*|\(|\)|\+|\=|\&lt;|\&gt;|\?|\/|,|\.|\:|\'| |\"|\&amp;|\#|\[|\]|~/g,"-");
+            str= str.replace(/-+-/g,"-"); //thay thế 2- thành 1-
+            str= str.replace(/^\-+|\-+$/g,"");//cắt bỏ ký tự - ở đầu và cuối chuỗi
+            str = str.replace(/[^a-zA-Z0-9]+/g,'-');
+            return str;
+        };
+    </script>
+{% endblock %}

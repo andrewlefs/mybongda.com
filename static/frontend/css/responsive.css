@@ -1,0 +1,58 @@
+@media screen and (max-width:1100px){.mbd_container{width:100%;}
+.ads_area_01,
+.ads_area_02,
+.ads_area_03,
+/*.chat_room{display:none;}*/
+}
+@media screen and (max-width:991px){.top_vert_menu{margin-bottom:20px;}
+.ads_area{margin:0;padding:0;position:static;float:left;width:50%;}
+.ads_area > video{height:250px;}
+.ads_area > img{margin:0 auto;}
+.info_football .analytic > .content ul.info_list li .img_thumb img{max-height:90px;}
+.result_match .no_pr{padding-right:15px !important;}
+.relax{margin-top:15px;}
+.relax .content ul li{float:right;width:50%;}
+.relax .content ul li:first-child{}
+.other_live_match a.pull-right,
+.other_live_match a.pull-left{font-size:14px;float:none !important;text-align:center;}
+.info_football .analytic > .content .img_thumb + h3 + .content{margin-bottom:15px;}
+}
+@media screen and (max-width:419px){.result_match .no_pr{display:none;}
+}
+@media screen and (width:320px){.start.btn{margin-left:-20px !important;}
+.live.btn{margin-left:-18px !important;}
+.relax .content ul li{width:100%;}
+.top_ads img{height:auto;}
+h2{font-size:18px;}
+h3{font-size:16px;}
+.info_football .analytic > .content > .row > div:first-child{margin-bottom:15px;}
+}
+@media screen and (max-width:767px){.header ul li{border-bottom:1px solid rgba(170, 170, 170, 0.4);}
+.header ul li a{font-size:16px;line-height:2em;}
+.header button{background:#fff;color:red;border-radius:0;margin-top:15px !important;}
+.header button .icon-bar{background:#0D82B3 !important;}
+.header button .icon-bar{background:#0D82B3 !important;}
+.header button .icon-bar{background:#0D82B3 !important;}
+.other_live_match .content .time_kick_off,
+.other_live_match .content .name_league{border-radius:0;}
+.other_live_match .content .time_kick_off{margin-bottom:10px;}
+}
+@media screen and (min-width:320px) and (max-width:420px){.videos_template .content iframe{height:250px !important;}
+}
+@media screen and (min-width:320px) and (max-width:420px){.videos_template .content .img_thum img{display:block;margin:0 auto;}
+.videos_template .relate_post .content .intro_text{text-align:center;}
+}
+@media screen and (min-width:421px) and (max-width:640px){.videos_template .content iframe{height:350px !important;}
+}
+@media screen and (min-width:320px) and (max-width:480px){.news_template .content .other_post .img_thumb img,
+.news_template .content .top_post .new_post .img_thumb img{display:block;margin:0 auto;}
+.news_template .content .other_post .title h3,
+.news_template .content .top_post .new_post .intro_text{text-align:center;}
+}
+@media screen and (max-width:991px){.news_template .content .top_post .newest_post .title{margin-top:10px;}
+}
+@media screen and (max-width:1100px){.live_match_template .container-fluid .row .col-md-3 .ads_area,
+.ads{display:none;}
+}
+@media screen and (min-width:320px) and (max-width:460px){.live_match_template .content > .video iframe{height:250px !important;}
+}

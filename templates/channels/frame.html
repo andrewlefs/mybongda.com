@@ -1,0 +1,67 @@
+{% load staticfiles %}
+{% load cache %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{{ info.title }} - Mybongda</title>
+    {% cache 500 css %}
+
+    <meta name="alexaVerifyID" content="l8nGAWFtG6Xo2ZThiIZ2AE43ZlQ"/>
+	<meta http-equiv="content-language" content="vi"/>
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://mybongda.com/" />
+	<meta property="og:image" content="http://i.imgur.com/3Oye6CO.png"/>
+	<meta property="og:site_name" content="Mybongda.com"/>
+    <meta property="og:title" content="Trực Tiếp Bóng Đá - Xem Bóng Đá Trực Tuyến - Mybongda" />
+    <meta property="og:description" content="Trực Tiếp Bóng Đá - Xem Bóng Đá Trực Tuyến - Mybongda" />
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta name="description" content="Xem bóng đá trực tuyến - Trực tiếp bóng đá chất lượng cao full HD , cập nhật tỷ số , soi kèo và nhận định tip kèo giúp người chơi có những sự lựa chọn sáng suốt chiến thắng kèo nhà cái.">
+    <meta name="author" content="Mybongda.com">
+    <meta name="keywords" content="truc tiep bong da, xem bong da truc tuyen, bong da truc tuyen, xem bong da truc tiep, k cong bong da">
+    <meta name="robots" content="index,follow,noodp">
+    <meta name="distribution" content="Global">
+    <meta name="revisit-after" content="1 days">
+    <meta name="title" content="Trực Tiếp Bóng Đá - Xem Bóng Đá Trực Tuyến - Mybongda">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'frontend/css/bootstrap.min.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'frontend/css/jquery.bxslider.css' %}">
+    <link rel="stylesheet" href="{% static 'frontend/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'frontend/css/responsive.css' %}">
+    {% endcache %}
+</head>
+
+<body>
+{% if object.type == 1 %}
+        {{ object.frame|safe }}
+{% endif %}
+<div class="banner"><a href="https://www.w88wvn.com/?affiliateid=326" target="_blank"><img style="border:0px" src="http://i.imgur.com/7oR0jOs.gif" width="500" height="80" alt=""></a></div>
+<div class="col-md-6 col-sm-6 col-xs-6">
+                                        <a target="_blank" href="http://goo.gl/VAF7JC">
+                                            <img alt="188bet 0705" width="500" height="80px" src="http://sbbanner.com/newmedia/vi/media/viSbnG_515x90.gif" border="0"></a>
+                                    </div>
+<script id="cid0020000123237591417" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 200px;height: 200px;">{"handle":"mybongda","arch":"js","styles":{"a":"959595","b":100,"c":"ffffff","d":"ffffff","e":"ffffff","g":"000000","h":"ffffff","j":"000000","k":"bbbbbb","l":"0D82B3","m":"0D82B3","n":"0D82B3","p":12,"s":1,"t":0,"allowpm":0,"v":0}}</script>
+{% cache 500 js %}
+<!-- GoogleAnalyticsObject -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48770984-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="{% static 'frontend/js/jquery-1.11.3.min.js' %}"></script>
+{% endcache %}
+</body>
+</html>

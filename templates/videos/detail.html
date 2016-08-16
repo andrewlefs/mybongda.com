@@ -1,0 +1,96 @@
+{% extends 'layout/base.html' %}
+
+{% block css %}
+    <style type="text/css">
+        #list-videos ul li {
+            width: 29.5%;
+        };
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="main-content">
+            <div class="col-lg-9 col-sm-9 col-xs-12">
+                <div class="single-fullmatch">
+                    <div class="entry-content">
+                        <div class="article-head">
+                            <div id="versus">
+                                <div class="team home">
+                                    <div class="logo">
+                                        <img src="{{ video.team_home.get_image_url }}">
+                                    </div>
+                                    <h1 class="name">{{ video.team_home }}</h1>
+                                </div>
+                                
+                                <div class="middle"> 
+                                    <span class="cname">{{ video.tournament }}</span> 
+                                    <span class="score">{{ video.score }}</span> 
+                                    <span class="date">{{ video.match_date|date:'m/d/Y' }}</span> 
+                                </div>
+
+                                <div class="team away">
+                                    <div class="logo">
+                                        <img src="{{ video.team_away.get_image_url }}">
+                                    </div>
+                                    <h1 class="name">{{ video.team_away }}</h1>
+                                </div>
+                            </div>
+
+                            <div>
+                                {{ video.frame|safe }}
+                            </div>
+                        </div>
+
+                        <a href="http://m88bit.com/link-m88-update" title="Link vao m88" target="_blank"> 
+                            <img src="http://m88bit.com/wp-content/uploads/2015/10/banner.gif" alt="Link vao m88">  
+                        </a>
+
+                        <div class="box-binhluan">
+                            <h3 class="title">Bình luận</h3>
+                            <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-width="100%" data-num-posts="10"></div>
+                        </div>
+
+                        <div class="template-video template-trandau related">
+                            <div id="list-videos">
+                                <div class="subcat-2"> 
+                                    <span>Highlight Related</span> 
+                                </div>
+                                <ul>
+                                    {% for video in videos_highlight %}
+                                        <li>
+                                            <a href="{% url 'video:detail' video.id video.slug %}">
+                                                <div class="thumb"> 
+                                                    <img src="{{ video.get_image_url }}" alt="{{ video.name }}"> 
+                                                    <span class="time">{{ video.match_date }}</span> 
+                                                </div>
+                                                <div class="thumb-over"></div>
+                                                <div class="info">
+                                                    <h2>{{ video.name }}</h2>
+                                                    <div class="meta"> {{ video.tournament }} </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-3 main-right">
+                <a href="#">
+                    <img width="100%" alt="" src="http://i.imgur.com/JM9pRmq.gif">
+                </a>
+
+                <a href="#">
+                    <img style="border:1px solid #ccc;"  width="100%" alt="ucw88 1592015" src="http://i.imgur.com/JtFwyvP.gif">
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

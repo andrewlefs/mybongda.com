@@ -1,0 +1,409 @@
+{% extends 'layout/base.html' %}
+{% load video_templatetags %}
+{% load cache %}
+
+{% block content %}
+<!-- top_content -->
+<div class="body_content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                {% regroup fixtures_main by start_date|date:'d/m/Y' as objects_by_day %}
+                {% for object in objects_by_day %}
+                <div class="today_football">
+                    <div class="heading">
+                        <span class="icon_play_heading"></span>
+                        <p style="font-size: 14px;color: #fff;margin: 4px 4px;line-height: 14px;">{{ object.grouper }}</p>
+                    </div>
+                    <div class="content">
+                        {% for fixture in object.list %}
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                <div class="home">
+                                    <div class="logo_fc">
+                                        <img src="{{ fixture.team_home.get_image_url }}" alt="{{ fixture.team_home }}">
+                                    </div>
+                                    <span class="name_fc">{{ fixture.team_home }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                <div class="state">
+                                    <div class="time_kickoff">{{ fixture.start_date|date:'H:i' }}</div>
+                                    <div class="league_cup">{{ fixture.tournament }}</div>
+                                    {% if fixture.start_date|check_greater_time %}
+                                        <a href="{% url 'fixture:live' fixture.id fixture.slug %}" class="btn btn-danger">
+                                            <i class="fa fa-play-circle"></i> live
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'fixture:live' fixture.id fixture.slug %}" class="start btn">
+                                            <i class="fa fa-play-circle"></i>trực tiếp
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                <div class="away">
+                                    <div class="logo_fc">
+                                        <img src="{{ fixture.team_away.get_image_url }}" alt="{{ fixture.team_away }}">
+                                    </div>
+                                    <span class="name_fc">{{ fixture.team_away }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- today_football -->
+                {% endfor %}
+
+                <div class="read_more">
+                    <a href="{% url 'fixture:index' %}" class="btn btn-warning">xem thêm</a>
+                </div>
+				<div class="read_more">
+                           <p style="display:block;color:#fff;font-weight:bold;text-align:center;background:green;" class="btn btn-warning">Trượt xuống dưới để xem rất nhiều trận bóng phụ khác đang LIVE </p><p style="display:block;color:#fff;font-weight:bold;text-align:center;background:green;" class="btn btn-warning">Room dành cho cao thủ, già làng post kèo không trôi <a href="http://mybongda.com/trang/20-gialangvacaothu/"><b style="color:red;font-weight:bold;">tại đây</a></b> - <a target="_blank" style="color:#fff !important;" href="http://mybongda.com/trang/23-truc-tiep-ty-so-goc/"> Click Xem trực tiếp kết quả kèo Góc </a></p>
+                 </div>
+            </div>
+            <div class="col-md-3 hidden-xs">
+                <div class="ads_area">
+                    <a target="_blank" href="http://www.v9b.com/vi-vn">
+                        <img alt="quảng cáo mybongda" src="http://i.imgur.com/sMnvaGY.gif"
+                             class="img-responsive" />
+                    </a>
+                </div>
+
+                <div class="ads_area">
+					<a alt="w88" target="_blank" href="https://www.w88live.com/?affiliateid=326">
+								<img style="max-width:300px;" alt="quảng cáo mybongda" width="100%" height="180" src="http://i.imgur.com/gsorfYd.gif" class="img-responsive">
+					</a>
+                </div>
+				<div class="ads_area">
+					<a alt="Fun88" target="_blank" href="http://www.fun027.com/lm/aff/biiidiii_vi_home">
+								<img style="max-width:300px;" alt="quảng cáo mybongda" width="100%" height="180" src="https://2.bp.blogspot.com/-lurklAp-eOA/VwYSYuPKWzI/AAAAAAAABLk/PI4xZQaC0yoZFptlk7vSANVA7oFfanPSw/s1600/unnamed.gif" class="img-responsive">
+					</a>
+                </div>
+				<div class="ads_area">
+					<a alt="Fun88" target="_blank" href="http://goo.gl/VAF7JC">
+								<img style="max-width:300px;" alt="quảng cáo mybongda" width="100%" height="200" src="http://sbbanner.com/newmedia/vi/promo/viSbnG_300x250.gif" class="img-responsive">
+					</a>
+					<iframe style="width: 100%; height: 448px;" src="http://ls.saas.vnexpress.net/vne/BangDiem/Detail?Giai=30" frameborder="0" allowfullscreen=""></iframe>
+                </div>
+		<div class="ads_area">
+		</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- body_content -->
+
+<div class="body_content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9 col-xs-12">
+                <div class="info_football">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <div class="analytic">
+                                <div class="heading">
+                                    <h2>
+                                        <a href="{% url 'post:list' %}?danh-muc=3">Phân tích & Soi kèo</a>
+                                    </h2>
+                                </div>
+                                <div class="content">
+                                    <div class="row">
+                                        {% for post in post_analytic %}
+                                            {% if forloop.first %}
+                                                <div class="col-md-5 col-sm-5 col-xs-12">
+                                                    <div class="img_thumb">
+                                                        <a href="{% url 'post:detail' post.id post.slug %}">
+                                                            <img src="{{ post.get_image_url }}" class="img-responsive" alt="{{ post.name }}">
+                                                        </a>
+                                                    </div>
+                                                    <h3 class="title"><a href="{% url 'post:detail' post.id post.slug %}">{{ post.name }}</a></h3>
+
+                                                    <p class="content">{{ post.name|truncatechars:220 }}</p>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        <div class="col-md-7 col-sm-7 col-xs-12">
+                                            <ul class="info_list">
+                                                {% for post in post_analytic %}
+                                                    {% if not forloop.first%}
+                                                    <li>
+                                                        <div class="row">
+                                                            <div class="col-md-4 col-sm-3 col-xs-4">
+                                                                <div class="img_thumb">
+                                                                    <a href="{% url 'post:detail' post.id post.slug %}">
+                                                                        <img width="75" height="50" src="{{ post.get_image_url }}"
+                                                                            class="img-responsive" alt="{{ post.name }}"></a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-8 col-sm-9 col-xs-8">
+                                                                <h3 class="title"><a href="{% url 'post:detail' post.id post.slug %}">{{ post.name|truncatechars:'50' }}</a></h3>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- analytic -->
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="news">
+                                <div class="heading">
+                                    <h2><a href="{% url 'post:list' %}?danh-muc=4">Gái xinh</a></h2>
+                                </div>
+                                <div class="content">
+                                    <ul>
+                                        {% for post in post_wags %}
+                                            {% if forloop.first %}
+                                                <li class="first">
+                                                    <a class="bold" href="{% url 'post:detail' post.id post.slug %}" title="{{ post.name }}">
+                                                        <img src="{{ post.get_image_url }}" alt="{{ post.name }}" width="242" height="160" style="max-height: 200px;">
+                                                        {{ post.name }}
+                                                    </a>
+                                                    <p>(Analytic) &#8211; {{ post.description|truncatechars:80}}</p>
+                                                    <span style="font-size: 12px;" class="text-warning">{{ post.created_date|date:'m/d/Y' }}</span>
+                                                </li>
+                                            {% else %}
+                                                <li>
+                                                    <div class="order">
+                                                        <a href="{% url 'post:detail' post.id post.slug %}" class="img-featured">
+                                                            <img src="{{ post.get_image_url }}" width="75" height="50" alt="{{ post.name }}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="title">
+                                                        <a class="bold" href="{% url 'post:detail' post.id post.slug %}" title="{{ post.name }}"> {{ post.name|truncatechars:20 }} </a>
+                                                        <p><span style="font-size: 12px;" class="text-warning">{{ post.created_date|date:'m/d/Y' }}</span></p>
+                                                    </div>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- info_football  -->
+                <div class="result_match">
+                    <div class="heading">
+                        <h2><i class="fa fa-bar-chart icon_title"></i>KẾT QUẢ BÓNG ĐÁ</h2>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 no_pr">
+                                <iframe src="http://free.7m.cn/live.aspx?mark=vn&amp;TimeZone=%2B0700&amp;wordAd=&amp;wadurl=http://www.7m.cn&amp;width=100%&amp;cpageBgColor=FFFFFF&amp;tableFontSize=12&amp;cborderColor=DDDDDD&amp;ctdColor1=FFFFFF&amp;ctdColor2=E0E9F6&amp;clinkColor=0044DD&amp;cdateFontColor=333333&amp;cdateBgColor=FFFFFF&amp;scoreFontSize=12&amp;cteamFontColor=000000&amp;cgoalFontColor=FF0000&amp;cgoalBgColor=FFFFE1&amp;cremarkFontColor=0000FF&amp;cremarkBgColor=F7F8F3&amp;Skins=10&amp;teamWeight=400&amp;scoreWeight=670&amp;goalWeight=400&amp;fontWeight=670&amp;DSTbox=&amp;ordType=&amp;view=simplify" height="500" width="100%" frameborder="0" scrolling="auto"></iframe>
+                            </div>
+                           <div class="char_room col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="">
+									<script id="cid0010000080383556233" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 100%;height: 500px;">{"handle":"mybongda","arch":"js","styles":{"a":"a0a0a0","b":100,"c":"ffffff","d":"000000","e":"e0e0e0","h":"ffffff","usricon":0.61,"j":"000000","k":"a0a0a0","l":"0d82b3","m":"a0a0a0","s":1,"surl":0,"p":"10.5","surl":0,"q":"a0a0a0","r":100,"t":0,"allowpm":0,"sbc":"0d82b3"}}</script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- result -->
+            </div>
+            <!--  -->
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <div class="relax">
+                    <div class="heading">
+                        <a href="{% url 'relax:list' %}">
+                            <h2>Giải trí</h2>
+                        </a>
+                    </div>
+                    <div class="content">
+                        <ul>
+                            {% for relax in relaxs %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-3 col-xs-4">
+                                        <div class="img_thumb">
+                                            <a href="{% url 'relax:detail' relax.id relax.slug %}">
+                                                <img src="{{ relax.get_image_url }}" class="img-responsive"
+                                                     alt="{{ relax.name }}">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 col-sm-9 col-xs-8">
+                                        <div class="title">
+                                            <a href="{% url 'relax:detail' relax.id relax.slug %}">
+                                                <h3>{{ relax.name|truncatechars:'30' }}</h3>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relax">
+                    <div class="heading">
+                        <a href="{% url 'post:list' %}?danh-muc=8">
+                            <h2>Tin tức</h2>
+                        </a>
+                    </div>
+                    <div class="content">
+                        <ul>
+                            {% for post in post_news %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-3 col-xs-4">
+                                        <div class="img_thumb">
+                                            <a href="{% url 'post:detail' post.id post.slug %}">
+                                                <img src="{{ post.get_image_url }}" class="img-responsive"
+                                                     alt="{{ relax.name }}">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 col-sm-9 col-xs-8">
+                                        <div class="title">
+                                            <a href="{% url 'post:detail' post.id post.slug %}">
+                                                <h3>{{ post.name|truncatechars:'30' }}</h3>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- body_content -->
+
+<div class="body_content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9 col-xs-12">
+                <div class="other_live_match">
+                    <div class="heading">
+                        <h2><span class="icon_ball_heading"></span>LỊCH BÓNG PHỤ</h2>
+                    </div>
+                    <div class="ads">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <a href="http://mbd.kbongda.net" target="_blank" class="pull-right">----- Link bóng cỏ đang LIVE -----</a>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <a href="http://mbd.kbongda.net/basketball/" target="_blank" class="pull-left">----- Xem bóng rổ trực tuyến -----</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <ul style="max-height: 700px; overflow-y: scroll; overflow-x: hidden;">
+                            {% for fixture in fixtures_extra %}
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-12 col-xs-12">
+                                        <div class="name_league">{{ fixture.tournament }}</div>
+                                        <div class="time_kick_off">{{ fixture.start_date|date:'d/m/Y H:i' }}</div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 col-xs-12">
+                                        <div class="row" style="padding-top: 10px; padding-right: 5px;">
+                                            <a href="{% url 'fixture:live' fixture.id fixture.slug %}">
+                                                <div class="col-md-5 col-sm-5 col-xs-5 no_pr">
+                                                    <div class="home">
+                                                        <div class="logo_fc">
+                                                            <img src="{{ fixture.team_home.get_image_url }}" alt="{{ fixture.team_home }}">
+                                                        </div>
+                                                        <span class="name_fc">{{ fixture.team_home }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                                    <div class="state">
+                                                        {% if fixture.start_date|check_greater_time %}
+                                                            <div class="live btn">live</div>
+                                                        {% else %}
+                                                            <p>vs</p>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 col-sm-5 col-xs-5 no_pl">
+                                                    <div class="away">
+                                                        <div class="logo_fc">
+                                                            <img src="{{ fixture.team_away.get_image_url }}" alt="{{ fixture.team_away }}">
+                                                        </div>
+                                                        <span class="name_fc">{{ fixture.team_away }}</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <!-- other_live_match -->
+            </div>
+
+            <div class="col-md-3 hidden-xs">
+                <div class="ads_area">
+                    <div class="fb-page" data-href="https://www.facebook.com/kbongda/" data-tabs="timeline" data-height="500px" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- body_content -->
+
+<div class="body_content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="hightlight_video">
+                    <div class="heading">
+                        <h2>
+                            <a href="{% url 'clip:list' %}">Bàn thắng</a>
+                        </h2>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            {% for clip in videos_highlight %}
+                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                <div class="video">
+                                    <div class="img_thumb">
+                                        <a href="{% url 'clip:detail' clip.id clip.slug %}">
+                                            <img src="{{ clip.get_image_url }}" class="img-responsive"
+                                                 alt="{% url 'clip:detail' clip.id clip.slug %}">
+                                        </a>
+                                    </div>
+                                    <div class="content">
+                                        <a href="{% url 'clip:detail' clip.id clip.slug %}">
+                                            <p class="result">{{ clip.name|truncatechars:30 }}</p>
+
+                                            <p class="name_league">{{ clip.tournament }}</p>
+                                        </a>
+
+                                        <div class="post_date">{{ clip.created_date|date:'d/m/Y' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="bosungmota_1603" style="margin:0px 20px">
+		<div class="oddtable">
+			<h4>Mybongda : Trực tiếp bóng đá - Cuồng nhiệt từng giây</h4>
+			<p></p>
+			<p><b><i>Mybongda.com</i></b> là website miễn phí cung cấp các giải pháp xem bóng đá trực tuyến. Nó giúp bạn có thể xem trực tiếp hoặc xem lại các giải bóng đá hàng đầu châu Âu và thế giới như: Ngoại Hạng Anh, VĐQG Ý, VĐQG Tây Ban Nha, VĐQG Đức, Hạng nhất Pháp, Cúp C1, Euro, Worldcup…</p>
+			<p><b>Mybongda - xem bóng đá trực tuyến</b> cũng cập nhật liên tục video clip bóng đá, kết quả và bảng xếp hạng. Chơi game bóng đá, cập nhật tỉ lệ, bình luận, dự đoán và hướng dẫn cá độ bóng đá.
+			</p>
+			<div style="display:inline-block"><a href="#" title="Hướng dẫn xem trực tiếp bóng đá">Hướng dẫn xem</a>
+			<a href="http://mybongda.com/truc-t

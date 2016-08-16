@@ -1,0 +1,121 @@
+{% extends 'layout/base.html' %}
+{% load staticfiles %}
+{% load video_templatetags %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<div class="body_content">
+    <div class="live_match_template">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 main-mybongda noright">
+                    <div class="filer-lich">
+                        <div class="logo_filter text-center" style="margin-bottom: 10px;">
+                            <img src="http://mybongda.com/static/frontend/img/logo.png">
+                        </div>
+
+                        <div class="filter-p text-center">
+                            <a href="{% url 'fixture:index' %}" id="all-lich" class="{% if info.selected == 'all' %} active {% endif %} btn btn-warning">Tất cả</a>
+                            <a href="{% url 'fixture:today' %}" id="now-lich" class="{% if info.selected == 'today' %} text-danger {% endif %} btn btn-success change-lich" data-date="homnay">Hôm nay</a>
+                            <a href="{% url 'fixture:tomorrow' %}" id="all-lich" class="{% if info.selected == 'tomorrow' %} text-danger {% endif %} btn btn-danger change-lich" data-date="tomorrow">Ngày Mai</a>
+                            <form action="" method="GET" style="display: inline;">
+                                <select class="form-control" style="width: 120px;" id="choose_giaidau">
+                                    <option value="/truc-tiep-bong-da">All</option>
+                                    {% for tournament in tournaments %}
+                                        <option {% if info.selected == tournament.id %} selected {% endif %} value="{% url 'fixture:detail' tournament.id tournament.slug %}">{{ tournament }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="lichthidau">
+                        {% regroup fixtures by start_date|date:'d/m/Y' as objects_by_day %}
+                        {% for object in objects_by_day %}
+                        <div class="today_football">
+                            <div class="heading">
+                                <span class="icon_play_heading"></span>
+                                <h2>{{ object.grouper }}</h2>
+                            </div>
+                            <div class="content">
+                                {% for fixture in object.list %}
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <div class="home">
+                                            <div class="logo_fc">
+                                                <img src="{{ fixture.team_home.get_image_url }}" alt="{{ fixture.team_home }}">
+                                            </div>
+                                            <span class="name_fc">{{ fixture.team_home }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <div class="state">
+                                            <div class="time_kickoff">{{ fixture.start_date|date:'H:i' }}</div>
+                                            <div class="league_cup">{{ fixture.tournament }}</div>
+                                            {% if fixture.start_date|check_greater_time %}
+                                                <a href="{% url 'fixture:live' fixture.id fixture.slug %}" class="btn btn-danger">
+                                                    <i class="fa fa-play-circle"></i> live
+                                                </a>
+                                            {% else %}
+                                                <a href="{% url 'fixture:live' fixture.id fixture.slug %}" class="start btn">
+                                                    <i class="fa fa-play-circle"></i>trực tiếp
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <div class="away">
+                                            <div class="logo_fc">
+                                                <img src="{{ fixture.team_away.get_image_url }}" alt="{{ fixture.team_away }}">
+                                            </div>
+                                            <span class="name_fc">{{ fixture.team_away }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        {% for channel in fixture.channels.all %}
+                                        <div style="display: inline; margin-left: 15px;">
+                                            {% if channel.type == 1 %}
+                                            <a href="{% url 'channel:detail' fixture.id channel.id channel.slug %}">
+                                                <img style="max-width: 60px; max-height: 60px;" src="{{ channel.get_image_url }}" />
+                                            </a>
+                                            {% else %}
+                                            <a href="{{ channel.link }}" target="_blank">
+                                                <img style="max-width: 60px; max-height: 60px;" src="{{ channel.get_image_url }}" />
+                                            </a>
+                                            {% endif %}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- today_football -->
+                        {% endfor %}
+                    </div>
+					<div style="padding:5px">
+							<h1 class="title" style="padding-top:10px"><a title="xem bong da truc tuyen , truc tiep bong da" href="http://mybongda.com/">Trực tiếp bóng đá tại Mybongda </a></h1>
+							<br>
+							<p><img style="margin-right: 5px;" src="http://i.imgur.com/ejQB63S.gif"> Mybongda truc tiep bong da 24/7 với <strong>link xem bóng đá trực tuyến</strong> chất lượng ổn định nhất nhằm giảm tình trạng xem gặp khó khăn, mang lại trải nghiệm khác biệt. Đặt biệt là nguồn link Youtube dồi dào với chất lượng tốt nhất xem được cả trên mobile sử dụng mạng 3G.
+							Lịch trực tiếp được cập nhật liên tục để các bạn có thể nhúng nguồn link từ mybongda sớm một cách dễ dàng là có thể sử dụng được cho bất kỳ website nào khác hoàn toàn miễn phí</p>
+							<p> - Chúng tôi sẽ trực tiếp các giải bóng đá hàng đầu thế giới như Ngoại hạng Anh, La Liga , Champions League, Europa League, Euro,Serie A vv… Và cũng không thể thiếu được các chương trình thể thao hấp dẫn của vietnam.</p>
+							<p>"Mybongda với phương châm sự kiện thể thao nào cũng có" sẽ tiếp tục cập nhật link <strong>trực tiếp bóng đá</strong> các giải đấu khác để hướng đến mục tiêu giúp những fan hâm mộ có thể xem bóng đá trực tuyến tất cả các giải đấu.</p>
+							<p>Cùng Mybongda<strong> Xem truc tiep bong da</strong> để chém gió và soi kèo mỗi ngày, tham khảo nhận định, tip bóng đá tại room chém gió để cùng chiến thắng.</p>
+					</div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    $('#choose_giaidau').on('change', function() {
+        window.location.href = this.value;
+    });
+</script>
+{% endblock %}

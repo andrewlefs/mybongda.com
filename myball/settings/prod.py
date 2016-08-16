@@ -1,0 +1,6 @@
+from myball.settings.base import *
+
+DEBUG = False
+
+ALLOWED_HOSTS = ["*"]
+

@@ -1,0 +1,58 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="body_content">
+    <div class="news_detail_template">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="heading">
+                        <h3>{{ object.name }}: {{ fixture.team_home }} - {{ fixture.team_away }}</h3>
+                    </div>
+                    <!-- heading -->
+                    <div class="content">
+                        <div class="meta">
+                            <div class="object_time">
+                                <p>{{ object.created_date|date:'d/m/Y H:i' }}</p>
+                            </div>
+                            <div class="social">
+                                <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: justify; max-width: 100% !important;">
+                            {{ object.frame|safe }}
+                        </div>
+                    </div>
+                    <!-- content -->
+                    <div class="comment_form">
+                        <div class="heading">
+                            <span class="heading">Bình Luận</span>
+                        </div>
+                        <div class="content">
+                            <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-width="100%" data-num-objects="10"></div>
+                        </div>
+                    </div>
+                    <!-- comment form -->
+                    <div class="relate_object">
+                        <div class="heading">
+                            <h2>Tin Liên Quan</h2>
+                        </div>
+                        <div class="content">
+                            <ul>
+                                {% for object in object_related %}
+                                    <li><a href="{% url 'object:detail' object.id object.slug %}">{{ object.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    {% include 'layout/sidebar.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}}

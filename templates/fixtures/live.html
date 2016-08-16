@@ -1,0 +1,365 @@
+{% extends 'layout/base.html' %}
+{% load video_templatetags %}
+
+{% block css %}
+
+<meta property="og:image" content="http://{{ request.get_host }}{{ object.image.url }}"/>
+
+<style>
+    iframe {
+        <!-- min-width: 730px !important;-->
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="body_content">
+    <div class="live_match_template">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="content">
+                        <div class="guide_text">
+                            <h1 style="font-size:14px;" class="float-left">Trực Tiếp bóng đá: {{ object.team_home }} - {{ object.team_away }}</h1>
+
+                            {% if object.description %}
+                                <div style="padding-left:10px;text-align:left;font-size:12px;color:blue;line-height:18px;">
+                                    <p class="text-center">
+                                        {{ object.description|safe }}
+                                    </p>
+                                </div>
+                            {% else %}
+                                <div style="padding-left:10px;text-align:left;font-size:12px;color:#000;line-height:18px;">
+                                    <p class="text-center">
+                                        Chú ý: Link bóng cỏ thường cập nhật khi trận đấu mới bắt đầu 30 giây <br> Server HD không quảng cáo nếu không xem được chuyển server 2, 3, ... <br><font color="Red"><b></b></font>
+                                        Tất cả link bóng cỏ khác đang diễn ra đều có tại đây: <a title="link bóng cỏ đang live" target="_blank" href="http://mbd.kbongda.net/"><strong style="color:Red;">http://mbd.kbongda.net</strong></a> 
+                                        <br/><a target="_blank" style="color:#red !important;" href="http://mybongda.com/trang/23-truc-tiep-ty-so-goc/"> Click Xem mô phỏng trực tiếp kết quả kèo Góc </a> 
+										<br/><b>Nhà cái uy tín nhất tặng 90k miễn phí: <a title="w88 nhà cái uy tín " target="_blank" href="https://www.w88live.com/?affiliateid=326"> w88</a></b>
+										<br/><b>Nhà cái lâu năm: <a title="Fun88 nhà cái uy tín " target="_blank" href="http://www.fun027.com/lm/aff/biiidiii_vi_home"> Fun88</a></b>
+										<br/><b>Top 1 Keno & Casino: <a title="188 nhà cái uy tín " target="_blank" href="http://www.sports918.com/vi-vn/?affiliateCode=58679&referralUrl="> 188bet</a></b>
+                                    </p>
+                                </div>
+                            {% endif %}
+                        </div>
+						<img src="{{ object.image.url }}" class="text-center" />
+                        <div class="live_match">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="home">
+                                        <div class="logo_fc">
+                                            <img src="{{ object.team_home.get_image_url }}" alt="{{ object.team_home }}">
+                                        </div>
+                                        <span class="name_fc">{{ object.team_home }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="state">
+                                        <div class="start btn">{{ object.start_date|date:'m/d/Y H:s' }}</div>
+                                        <div class="league_cup">{{ object.tournament }}</div>
+                                        <div href="#" class="time_kickoff">Soi kèo</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <div class="away">
+                                        <div class="logo_fc">
+                                            <img src="{{ object.team_away.get_image_url }}" alt="{{ object.team_away }}">
+                                        </div>
+                                        <span class="name_fc">{{ object.team_away }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- live_match -->
+                        <div class="video">
+                            {% if object.match.link_odds %}
+                                <object id="playZonePlayer" width="100%" height="300" type="application/x-shockwave-flash" data="https://1xzone.com/Zone.swf?max=0.765873372554779" style="visibility: visible;"><param name="menu" value="false"><param name="wmode" value="opaque"><param name="allowFullScreen" value="false"><param name="scale" value="exactFit"><param name="AllowScriptAccess" value="always"><param name="flashvars" value="ZonePlayGameId={{ object.match.link_odds }}&amp;scaleMode=scaleAll&amp;gameId={{ object.match.link_odds }}&amp;lng=vi&amp;sport=1"></object>
+                            {% else %}
+                                {% with cur_server|get_simulation as simulator  %}
+                                    {% if simulator %}
+                                        {{ simulator|safe }}
+                                    {% endif %}
+                                {% endwith %}
+                            {% endif %}
+                        </div>
+
+                        <div class="video">	<span style="position:absolute;top: 0px;right: 15px;font-size: 12px; font-weight: bold;color: #FFF;text-decoration: none;white-space: nowrap;">Nếu giật hoặc không xem được chọn Server khác phía dưới</span>
+                            {% if cur_server %}
+                                {{ cur_server|default_if_none:''|get_auto_frame|safe }}
+                            {% else %}
+                                <iframe src="http://kbongda.net/tructiepbongda_bg.html" width="100%" height="420px"></iframe>
+                            {% endif %}
+                        </div>
+                        <!-- video -->
+
+                        <div class="meta">
+                            <div class="link_server">
+                                {% if object.match.frame_1xbet %}
+                                    <div class="changeserver btn btn-warning">
+                                        <a href="?server=9">Server HD</a>
+                                    </div>
+                                {% endif %}
+
+                                {% if object.match.frame_server_1 %}
+                                    <div class="changeserver btn btn-warning">
+                                        <a href="?server=1">Server 1</a>
+                                    </div>
+                                {% endif %}
+
+                                {% if object.match.frame_server_2 %}
+                                    <div class="changeserver btn btn-warning">
+                                        <a href="?server=2">Server 2</a>
+                                    </div>
+                                {% endif %}
+
+                                {% if object.match.frame_server_3 %}
+                                    <div class="changeserver btn btn-warning">
+                                        <a href="?server=3">Server 3</a>
+                                    </div>
+                                {% endif %}
+
+                                {% if object.match.frame_server_4 %}
+                                    <div class="changeserver btn btn-warning">
+                                        <a href="?server=4">Server 4</a>
+                                    </div>
+                                {% endif %}
+
+                                {% if object.match.frame_server_5 %}
+                                    <div class="changeserver btn btn-warning">
+                                        <a href="?server=5">Server 5</a>
+                                    </div>
+                                {% endif %}
+
+                                {% if object.match.frame_server_6 %}
+                                    <div class="changeserver btn btn-warning">
+                                        <a href="?server=6">Server 6</a>
+                                    </div>
+                                {% endif %}
+
+                                {% if object.match.frame_server_7 %}
+                                    <div class="changeserver btn btn-warning">
+                                        <a href="?server=7">Server 7</a>
+                                    </div>
+                                {% endif %}
+
+                                {% if object.match.frame_server_8 %}
+                                    <div class="changeserver btn btn-warning">
+                                        <a href="?server=8">Server 8</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="social">
+                                <div class="g-plusone" data-size="medium"></div>
+								<div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                            </div>
+                        </div>
+                        <!-- meta -->
+                        <div class="live_channel">
+                            <div class="heading">
+                                <span class="icon_play_heading"></span>
+
+                                <h2>Kênh phát trực tuyến</h2>
+                            </div>
+                            <div class="content">
+                                <div class="row">
+                                    {% for channel in object.channels.all %}
+                                    <div class="col-md-2 col-sm-4 col-xs-6">
+                                        {% if channel.type == 1 %}
+                                        <a href="{% url 'channel:detail' fixture.id channel.id channel.slug %}">
+                                            <img style="max-width: 60px; max-height: 60px;" width="60px" src="{{ channel.get_image_url }}" />
+                                        </a>
+                                        {% else %}
+                                        <a href="{{ channel.link }}" target="_blank">
+                                            <img style="max-width: 60px; max-height: 60px;" width="60px" src="{{ channel.get_image_url }}" />
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- live_channel -->
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="ads">
+                                    <a href="http://affiliate.m88a.com/Track.ashx?ref=93732&lang=vi-VN&link=96e7bdd8-6a71-490e-be92-ac9e822c9ca4" target="_blank">
+                                        <img src="http://www.m88sut.com/wp-content/uploads/2015/12/m88-120x600_VN.gif" height="623" width="100%" border="0"
+                                             style="margin:0px; padding:0px;"></a>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="result_match">
+                                    <div class="heading">
+                                        <h2><i class="fa fa-bar-chart icon_title"></i>KẾT QUẢ CÁC TRẬN ĐẤU</h2>
+                                    </div>
+                                    <div class="content">
+                                        <div style="float:left; width:100%; margin:1px 0 1px 0; padding:0 1px 0 1px; border: 0px solid #000;">
+
+                                            <div class="clear-line"></div>
+                                            <!-- chatbox3-->
+                                            <div style="float:left; width:100%; margin:0px 0 0 0; padding:0; position: relative; z-index: 500; border-bottom: 0px solid #000;">
+                                                <!-- =xemHTMLcottrai() -->
+                                                <style type="text/css">
+                                                    .iframe85 {
+                                                        zoom: 0.5;
+                                                        -moz-transform: scale(0.95);
+                                                        -moz-transform-origin: 0 0;
+                                                        -o-transform: scale(0.95);
+                                                        -o-transform-origin: 0 0;
+                                                        -webkit-transform: scale(0.95);
+                                                        -webkit-transform-origin: 0 0;
+                                                    }
+                                                </style>
+
+                                                <div style="float:left; width:100%; margin:0;overflow:hidden;position:relative;">
+                                                    <div style="float:left; width:100%; margin:0; position:relative;margin:-120px 0 0px 0;">
+
+                                                        <iframe id="Content7IF"
+                                                                src="http://freelive.7m.cn/live_default.aspx?site=&Cr=E6E6FA&encode=vn&img=&iadurl=&adword=&wadurl=&tz=+0700&dst=0"
+                                                                scrolling="yes" frameborder="0"
+                                                                style="height:700px; width: 100%; overflow-y: hidden;"></iframe>
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <!--
+                                            =TySO1HTML1V()
+                                             -->
+
+                                            <div class="clear-line"></div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="link_sopcast">
+                            {% if object.match.link_sopcast %}
+                                <iframe style="width: 100%; max-height:350px;" height="350px"
+                                    src="{{ object.match.link_sopcast }}"
+                                    frameborder="0"></iframe>
+                            {% endif %}
+                        </div>
+                        <!-- link_sopcast -->
+                        <div class="guide_text">
+                            <h2 style="font-size:14px;" class="float-left">Trực Tiếp Trận Đấu</h2>
+
+                            <div style="padding-left:10px;text-align:left;font-size:12px;color:blue;line-height:18px;">
+                                <p class="text-center">
+                                    Chú ý: Link sẽ được cập nhật liên tục trước 30 phút khi trận đấu bắt đầu,hãy chú ý
+                                    đón xem .<br> Vùng hiển thị xem trận bóng đá trực tuyến có thể hiển thị quảng cáo
+                                    của server phát trận đấu.Bạn hãy click vào dấu "<font color="Red"><b>x</b></font>"
+                                    để đóng quảng cáo hoặc click vào <strong style="color:Red;">Skip Ad</strong> ở góc
+                                    phải (trên) của clip !
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="comment_form">
+                            <div class="heading">
+                                <span class="heading">Bình Luận</span>
+                            </div>
+                            <div class="content">
+                                <div data-width="100%" class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+                            </div>
+                        </div>
+						<div class="note">Vấn đề bản quyền:<br>
+						    Mybongda hay ฟุตบอลของฉัน .com hệ thống máy chủ đặt tại: Thái Lan - Singapore và US Hotline: +61 410 728 999 (Úc châu) là website cá nhân do พระเอกลี chủ quản
+							<br>Mybongda.com không tự phát trực tuyến bất kỳ chương trình cũng như những tập tin video nào được nhúng ở đây. Tất cả các chương trình và tập tin video được tải lên bởi người hâm mộ bóng đá tới các trang web như YouTube, Talktv.vn, Dailymotion, Ustream … nhiệm vụ của Mybongda.com ở đây, là thực hiện tìm kiếm và sắp xếp các chương trình, các tập tin video để có thể dễ dàng theo dõi hơn.
+							<br>Mybongda.com không chịu trách nhiệm cho những nội dung được phát hoặc đăng tải bởi các website khác. Nếu bạn thấy video hay chương trình nào vi phạm bản quyền của bạn, bạn có thể gửi yêu cầu đến các trang web lưu trữ hay trực tuyến các chương trình đó để trực tiếp chịu trách nhiệm. Điều đó sẽ đảm bảo rằng những chương trình đó được gỡ bỏ khỏi Internet. Khi ấy, hệ thống của Mybongda.com sẽ tự động không tìm thấy những chương trình đó và chúng không xuất hiện nữa.
+							<br><br>
+
+							DMCA Compliance
+							<br>All the video content found on the Mybongda.com is not hosted on our servers nor is created or uploaded by us. Mybongda.com simply acts as a search engine that finds videos from websites like YouTube, Talktv.vn, Dailymotion, Ustream and other video portals. Mybongda.com is not responsible for external website’s content. If you find that some of the content violates your rights you may request for that content to be brought down at the host that is responsible for the content. That will ensure that the content is removed from Mybongda.com and other search engines that may have indexed the content.
+						</div>
+                        <!-- comment form -->
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="ads-right">
+                        <a href="http://www.v9b.com/vi-vn" target="_blank">
+                            <img height="250" width="100%" style="border:none;padding:0px;margin:0px;"
+                                 src="http://i.imgur.com/sMnvaGY.gif">
+                        </a>
+                    </div>
+					<div class="ads-right">
+						<div class="ads_area">
+							<a alt="188bet" target="_blank" href="http://goo.gl/VAF7JC">
+								<img style="max-width:400px;" alt="quảng cáo mybongda" width="100%" height="200" src="http://sbbanner.com/newmedia/vi/promo/viSbnG_300x250.gif" class="img-responsive">
+							</a>
+						</div>
+						<div class="ads_area">
+							<a alt="Fun88" target="_blank" href="http://goo.gl/3k4pGU">
+								<img style="max-width:400px;" alt="quảng cáo mybongda" width="100%" height="180" src="http://i.imgur.com/SwXBL2A.gif" class="img-responsive">
+							</a>
+						</div>
+					</div>
+					<div class="ads-right">
+						<div class="ads_area">
+							 <a alt="casino" target="_blank" href="https://www.w88live.com/?affiliateid=326">
+								<img style="max-width:400px;" alt="quảng cáo mybongda" width="100%" height="180" src="http://i.imgur.com/gsorfYd.gif" class="img-responsive">
+							</a>
+						</div>
+					</div>
+                    <div class="ads-right">
+                        <script id="sid0010000080383556233">(function () {
+                            function async_load() {
+                                s.id = "cid0010000080383556233";
+                                s.src = 'http://st.chatango.com/js/gz/emb.js';
+                                s.style.cssText = "width:100%;height:450px;";
+                                s.async = true;
+                                s.text = '{"handle":"mybongda","styles":{"a":"959595","b":100,"c":"ffffff","d":"ffffff","e":"ffffff","g":"000000","h":"ffffff","j":"000000","k":"bbbbbb","l":"0D82B3","m":"0D82B3","n":"0D82B3","p":12,"s":1,"t":0,"allowpm":0,"v":0}}';
+                                var ss = document.getElementsByTagName('script');
+                                for (var i = 0, l = ss.length; i < l; i++) {
+                                    if (ss[i].id == 'sid0010000080383556233') {
+                                        ss[i].id += '_';
+                                        ss[i].parentNode.insertBefore(s, ss[i]);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            var s = document.createElement('script');
+                            if (s.async == undefined) {
+                                if (window.addEventListener) {
+                                    addEventListener('load', async_load, false);
+                                } else if (window.attachEvent) {
+                                    attachEvent('onload', async_load);
+                                }
+                            } else {
+                                async_load();
+                            }
+                        })();</script>
+                    </div>
+
+                    <div class="ads-right">
+						</iframe> 
+						<a alt="Fun88" target="_blank" href="http://goo.gl/3k4pGU">
+								<img style="max-width:400px;" alt="quảng cáo mybongda" width="100%" height="180" src="http://i.imgur.com/SwXBL2A.gif" class="img-responsive">
+						</a>
+						
+                        <!--<div style="width: 100%; height: 265px;overflow:hidden;position:relative;z-index:2;">
+                            <iframe style="width: 360px; max-height:450px;" height="370px"
+                                    src="{{ object.match.link_betradar }}"
+                                    frameborder="0"></iframe>
+                        </div>-->
+						
+                    </div>
+
+                    <div class="ads-right">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endbloc

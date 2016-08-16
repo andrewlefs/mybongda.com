@@ -1,0 +1,163 @@
+{% extends 'admin/layout/base.html' %}
+{% load video_templatetags %}
+
+{% block 'css' %}
+{% endblock %}
+
+{% block 'content' %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Fixture 
+            <small>List</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'admin:dashboard' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Fixture</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <div class="pull-left">
+                            <a class="btn btn-xs btn-danger" id="delall" onclick="return false;" href="">Delete All</a>
+                        </div>
+                        <div class="pull-right">
+                            <a class="btn btn-xs btn-warning" href="{% url 'admin:create_fixture' %}">New Fixture</a>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-bordered" id="tableofme">
+                            <tr>
+                                <th style="width: 10px">
+                                    <input type="checkbox" id="selectall" />
+                                </th>
+                                <th style="width: 10px"></th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Home</th>
+                                <th>Away</th>
+                                <th>Country</th>
+                                <th>Tournament</th>
+                                <th>Time (m/d/y)</th>
+                                <th>Auto</th>
+                                <th class="text-center" style="width: 200px">Action</th>
+                            </tr>
+                            {% for item in object_list %}
+                                <tr>
+                                    <td>
+                                        <input class="case" type="checkbox" name="case" value="{{ item.id }}" />
+                                    </td>
+                                    <td>{{ item.id }}.</td>
+                                    <td>{{ item.get_type_display }}</td>
+                                    <td>
+                                        {% if item.start_date|check_greater_time %}
+                                            <span class="label label-warning"> Live </span>
+                                        {% else %}
+                                            {% if item.is_hot %}
+                                                <span class="label label-danger"> Hot </span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.team_home }}</td>
+                                    <td>{{ item.team_away }}</td>
+                                    <td>{{ item.country }}</td>
+                                    <td>{{ item.tournament }}</td>
+                                    <td>{{ item.start_date|date:'m/d/Y H:i:s' }}</td>
+                                    <td>{{ item.match.frame_1xbet }}</td>
+                                    <td class="text-center">                                        
+                                        <a href="{% url 'admin:update_match' item.id %}">
+                                            <span class="badge bg-yellow">UP LINK</span>
+                                        </a>
+                                        <a href="{% url 'admin:update_fixture' item.id %}">
+                                            <span class="badge">Update</span>
+                                        </a>
+                                        <a href="#" data-href="{% url 'admin:delete_fixture' item.id %}" data-toggle="modal" data-target="#confirm-delete">
+                                            <span class="badge bg-red">Delete</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            {% if is_paginated %}
+                                {% if page_obj.number >= 2 %}
+                                    <li><a class="first" href="?page=1">« First</a></li>
+                                {% endif %}
+
+                                {% if page_obj.has_previous %}
+                                    <li><a class="previouspostslink" rel="prev" href="?page={{ page_obj.previous_page_number }}">«</a></li>
+                                {% endif %}
+
+                                {% for page in page_obj.paginator.page_range %}
+                                    {% if page > page_obj.number|minfilter and page < page_obj.number|maxfilter %}
+                                        {% if page_obj.number != page %}
+                                            <li><a class="page smaller" href="?page={{ page }}">{{ page }}</a></li>
+                                        {% else %}
+                                            <li><span class="current">{{ page }}</span></li>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if page_obj.has_next %}
+                                    <li><a class="nextpostslink" rel="next" href="?page={{ page_obj.next_page_number }}">»</a></li>
+                                {% endif %}
+                                <li><a class="last" href="?page={{ page_obj.paginator.num_pages }}">Last »</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% endblock %}
+
+{% block 'js' %}
+<script type="text/javascript">
+    $(function() {
+        $("#selectall").click(function() {
+            $('#tableofme').find('input[type=checkbox]').prop('checked', this.checked);
+        });
+
+        $(".case").click(function() {
+            if ($(".case").length == $(".case:checked").length) {
+                $("#selectall").prop('checked', true);
+            } else {
+                $("#selectall").removeAttr("checked");
+            }
+        });
+
+        var checkboxValues = [];
+        $('#delall').click(function() {
+            $('input[name="case"]:checked').map(function() {
+                checkboxValues.push($(this).val());
+            });
+            if (checkboxValues.length > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'admin:delete_multiple_fixture' %}",
+                    data: {
+                        "csrfmiddlewaretoken": "{{ csrf_token }}",
+                        "list": checkboxValues.toString(),
+                    },
+                    success: function(data) {
+                        if (data) {
+                            $('#tableofme').find('input[type=checkbox]').prop('checked', false);
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

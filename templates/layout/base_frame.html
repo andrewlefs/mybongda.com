@@ -1,0 +1,74 @@
+{% load staticfiles %}
+{% load cache %}
+{% load video_templatetags %}
+
+<doctype html>
+<html lang="en">
+
+<head>
+    <title>{{ info.title }} - Mybongda</title>
+    <meta name="title" content="{{ info.title }} - Mybongda">
+    <meta property="og:title" content="{{ info.title }} - Mybongda" />
+    <meta name="description" content="{{ info.title }} - Xem bóng đá trực tuyến - Trực tiếp bóng đá chất lượng cao full HD , cập nhật tỷ số , soi kèo và nhận định tip kèo giúp người chơi có những sự lựa chọn sáng suốt chiến thắng kèo nhà cái.">
+    <meta property="og:description" content="{{ info.title }} - Xem bóng đá trực tuyến - Trực tiếp bóng đá chất lượng cao full HD , cập nhật tỷ số , soi kèo và nhận định tip kèo giúp người chơi có những sự lựa chọn sáng suốt chiến thắng kèo nhà cái." />
+    <meta name="keywords" content="{{ info.title|generator_keyword }}, truc tiep bong da, xem bong da truc tuyen, bong da truc tuyen, xem bong da truc tiep, k cong bong da, tip bong da">
+
+    {% cache 500 css %}
+
+    <meta name="alexaVerifyID" content="l8nGAWFtG6Xo2ZThiIZ2AE43ZlQ"/>
+	<meta http-equiv="content-language" content="vi"/>
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://mybongda.com/" />
+	<meta property="og:image" content="http://i.imgur.com/3Oye6CO.png"/>
+	<meta property="og:site_name" content="Mybongda.com"/>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="author" content="Mybongda.com">
+    <meta name="robots" content="index,follow,noodp">
+    <meta name="distribution" content="Global">
+    <meta name="revisit-after" content="1 days">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'frontend/css/bootstrap.min.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'frontend/css/jquery.bxslider.css' %}">
+    <link rel="stylesheet" href="{% static 'frontend/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'frontend/css/responsive.css' %}">
+    {% endcache %}
+
+    {% block css %}
+    {% endblock %}
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="main_content">
+        <div class="mbd_container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <!-- main content -->
+</div>
+{% cache 500 js %}
+<!-- GoogleAnalyticsObject -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48770984-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="{% static 'frontend/js/jquery-1.11.3.min.js' %}"></script>
+{% endcache %}
+
+{% block js %}
+{% endblock %}
+</body>
+</html>
